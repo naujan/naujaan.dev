@@ -1,68 +1,87 @@
 
 <section class="hero container" aria-labelledby="hero-title">
-  <div class="hero__divider reveal reveal--1" aria-hidden="true"></div>
+  <div
+    class="hero__divider reveal reveal--1"
+    aria-hidden="true"
+  ></div>
 
   <div class="hero__content">
-    <p class="hero__intro reveal reveal--2">
-      Hello, I'm
-    </p>
+    <div class="hero__copy">
 
-    <h1 id="hero-title" class="hero__title reveal reveal--3">
-      naujaan<span class="hero__dot">.</span>
-    </h1>
-
-    <p class="hero__tagline reveal reveal--4">
-      Developer by passion.
-    <em>Creator by nature.</em>
-    </p>
-
-    <div class="hero__details reveal reveal--5">
-      <p class="hero__description">
-        I am a 4th student year at a technical high school in Poland. <br>
-        I build web apps, mostly the backend side, but I prefer having
-        the frontend the way I like.
-        Apart from tech, I am a calisthenics enthusiast.
-        
-
+      <p class="hero__intro reveal reveal--2">
+        Hello, I'm
       </p>
 
-      <a class="hero__link" href="/projects">
-        Explore my work
-        <span aria-hidden="true">↗</span>
-      </a>
+      <h1 id="hero-title" class="hero__title reveal reveal--3">
+        naujaan<span class="hero__dot">.</span>
+      </h1>
+
+      <p class="hero__tagline reveal reveal--4">
+        Developer by passion.<br />
+        <em>Creator by nature.</em>
+      </p>
+
+      <div class="hero__details reveal reveal--5">
+        <p class="hero__description">
+          I'm a fourth-year student at a technical high
+          school in Poland. I build web applications,
+          mostly focusing on backend development,
+          but I also care about crafting frontends
+          that match my vision.
+
+          Outside of tech, I'm passionate
+          about calisthenics.
+        </p>
+
+        <a class="hero__link" href="/projects">
+          Explore my work
+          <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+
     </div>
   </div>
 
-  <div class="hero__divider reveal reveal--6" aria-hidden="true"></div>
+  <div
+    class="hero__divider reveal reveal--6"
+    aria-hidden="true"
+  ></div>
 </section>
 
 <style>
   /* Layout */
   .hero {
-    min-height: calc(100svh - 100px);
+    position: sticky;
+    top: 0;
+    z-index: 2;
+
+    height: 100svh;
+    min-height: 100svh;
 
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 
-    position: relative;
     isolation: isolate;
   }
 
-  .hero__divider {
-    width: 100%;
-    height: 1px;
-    flex-shrink: 0;
-    background-color: var(--border);
+  .hero__content {
+    padding-block: clamp(24px, 5vh, 70px);
   }
 
-  
-    .hero__content {
-    padding-block: clamp(50px, 8vh, 110px);
-    }
+  /*
+   * Scroll animation
+   * Controlled by index.astro
+   */
+  .hero__copy {
+    opacity: var(--hero-opacity, 1);
 
-    /* Hello, I'm */
-    .hero__intro {
+    transform: scale(var(--hero-scale, 1));
+    transform-origin: center center;
+  }
+
+  /* Hello, I'm */
+  .hero__intro {
     position: relative;
     z-index: 1;
 
@@ -74,10 +93,10 @@
     line-height: 1;
 
     color: var(--accent);
-    }
+  }
 
-    /* naujaan. */
-    .hero__title {
+  /* naujaan. */
+  .hero__title {
     margin: 0 0 0 clamp(16px, 3.5vw, 56px);
 
     font-family: var(--font-primary);
@@ -88,8 +107,7 @@
     white-space: nowrap;
 
     color: var(--text);
-    }
-
+  }
 
   .hero__dot {
     color: var(--accent);
@@ -205,14 +223,15 @@
     }
 
     .hero__intro {
-    font-size: clamp(30px, 6vw, 42px);
-    margin-bottom: -0.25em;
+      font-size: clamp(30px, 6vw, 42px);
+      margin-bottom: -0.25em;
     }
 
     .hero__title {
-        font-size: clamp(58px, 15.5vw, 120px);
-        margin-left: clamp(8px, 2vw, 16px);
+      font-size: clamp(58px, 15.5vw, 120px);
+      margin-left: clamp(8px, 2vw, 16px);
     }
+
     .hero__tagline {
       margin-top: 24px;
       line-height: 1.5;
@@ -242,6 +261,20 @@
 
     .hero__link {
       transition: none;
+    }
+  }
+
+  @media (max-width: 768px),
+         (prefers-reduced-motion: reduce) {
+    .hero {
+      position: relative;
+      height: auto;
+      min-height: calc(100svh - 100px);
+    }
+
+    .hero__copy {
+      opacity: 1;
+      transform: none;
     }
   }
 </style>

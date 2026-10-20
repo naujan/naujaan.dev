@@ -1,7 +1,12 @@
-
 ---
 import Header from '../components/Header.astro';
 import '../styles/global.css';
+
+interface Props {
+  overlayHeader?: boolean;
+}
+
+const { overlayHeader = false } = Astro.props;
 ---
 
 <!doctype html>
@@ -18,7 +23,7 @@ import '../styles/global.css';
     <title>naujaan - Developer</title>
   </head>
 
-  <body>
+  <body class:list={{ 'home-layout': overlayHeader }}>
     <Header />
 
     <main id="main-content">
