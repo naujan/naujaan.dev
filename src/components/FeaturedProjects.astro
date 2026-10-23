@@ -10,7 +10,7 @@ const projects = (await publishedProjects()).filter(project => project.data.feat
   <div class="projects-grid">
     {projects.map((entry, index) => <SectionReveal variant="wipe"><ContentCard entry={entry} index={index} /></SectionReveal>)}
   </div>
-  {projects.length === 0 && <p class="empty-state">Something new is in the works.</p>}
+  {projects.length === 0 && <p class="empty-state">No projects to show.</p>}
 </section>
 <style>
   .projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }

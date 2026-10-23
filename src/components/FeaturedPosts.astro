@@ -12,7 +12,7 @@ const posts = (await publishedPosts()).filter(post => post.data.featured).sort(f
   <div class="posts-grid">
     {posts.map((entry, index) => <SectionReveal><ContentCard entry={entry} index={index} /></SectionReveal>)}
   </div>
-  {posts.length === 0 && <p class="empty-state">New ideas are taking shape. Come back soon.</p>}
+  {posts.length === 0 && <p class="empty-state">No posts, yet.</p>}
 </section>
 <style>
   .posts-grid { display: grid; grid-template-columns: 1.35fr 1fr 1fr; gap: 32px; align-items: start; }
