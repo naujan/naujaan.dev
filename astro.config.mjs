@@ -8,7 +8,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://naujaan-dev.vercel.app',
+  site: 'https://naujaan.dev',
   output: 'static',
   adapter: vercel(),
   integrations: [react(), markdoc(), keystatic(), sitemap({
