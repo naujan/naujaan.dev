@@ -9,11 +9,13 @@
   "timeline": [
     {
       "period": "01.2026",
-      "title": "Apprenticeship at Ringier Axel Springer Poland"
+      "title": "IT Support Apprenticeship - Ringier Axel Springer Polska",
+      "description": "Completed a one-month vocational placement in IT Help Desk support, gaining practical experience with Windows Server, Active Directory, Jira, and IT ticketing systems."
     },
     {
       "period": "07.2026",
-      "title": "Apprenticeship at F.H. Laserland Poland"
+      "title": "IT Service Apprenticeship - F.H. Laserland Poland",
+      "description": "Gained practical experience in IT hardware servicing, including diagnosing technical issues, troubleshooting, and maintaining computer equipment and printers."
     }
   ]
 }
