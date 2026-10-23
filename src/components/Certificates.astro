@@ -1,38 +1,20 @@
 ---
-import Icon from './Icon.astro';
 import type { about } from '../lib/site';
 interface Props { certificates: typeof about.certificates; }
-const { certificates } = Astro.props;
-const dateLabel = (date: string) => new Intl.DateTimeFormat('en', {
-  month: 'short', year: 'numeric', timeZone: 'UTC',
-}).format(new Date(date));
+const images = Astro.props.certificates.flatMap(item => item.image ? [item.image] : []);
 ---
-{certificates.length > 0 && <section class="certificates" aria-labelledby="certificates-title">
-  <div class="heading"><h3 id="certificates-title">Certificates</h3><span aria-hidden="true">{String(certificates.length).padStart(2, '0')}</span></div>
-  <ul>
-    {certificates.map(certificate => <li>
-      <div class="certificate-copy">
-        <h4>{certificate.url
-          ? <a href={certificate.url} target="_blank" rel="noopener noreferrer">{certificate.title}<span class="arrow"><Icon /></span></a>
-          : certificate.title}</h4>
-        <div class="meta"><span>{certificate.issuer}</span>{certificate.date && <time datetime={certificate.date}>{dateLabel(certificate.date)}</time>}</div>
-      </div>
-    </li>)}
-  </ul>
-</section>}
+{images.length > 0 && <ul class="certificates" aria-label="Certificates">
+  {images.map((src, index) => <li>
+    <a href={src} target="_blank" rel="noopener noreferrer" aria-label={'Open certificate ' + (index + 1) + ' in full size (new tab)'}>
+      <img src={src} alt={'Certificate ' + (index + 1)} loading="lazy" decoding="async" />
+    </a>
+  </li>)}
+</ul>}
 <style>
-  .certificates { margin-top: 48px; }
-  .heading { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
-  h3 { margin: 0; font-size: 11px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--text-soft); }
-  .heading > span { font: italic 24px var(--font-serif); color: #9ab2ff; }
-  ul { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--border); }
-  li { padding: 22px 0; border-bottom: 1px solid var(--border); }
-  h4 { margin: 0; font-size: 17px; font-weight: 500; line-height: 1.5; letter-spacing: -.025em; overflow-wrap: anywhere; }
-  a { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; color: inherit; text-decoration: none; }
-  a:hover { color: #9ab2ff; }
-  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 6px; }
-  .arrow { flex: none; color: #9ab2ff; font-size: 14px; }
-  .meta { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 16px; margin-top: 8px; font-size: 12px; line-height: 1.6; color: var(--text-muted); }
-  .meta > span { overflow-wrap: anywhere; min-width: 0; }
-  time { white-space: nowrap; }
+  .certificates { display: grid; gap: 20px; list-style: none; margin: 40px 0 0; padding: 0; }
+  li { min-width: 0; }
+  a { display: block; padding: 8px; border: 1px solid var(--border); background: #ffffff04; border-radius: 4px; }
+  a:hover { border-color: #9ab2ff; }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 5px; }
+  img { display: block; width: 100%; height: auto; }
 </style>
