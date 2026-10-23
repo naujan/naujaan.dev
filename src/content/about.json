@@ -1,6 +1,15 @@
 {
   "heading": "Beyond the code.",
   "intro": "working on it cuh",
-  "certificates": [],
-  "timeline": []
+  "certificates": [
+    {
+      "image": "/images/certificates/certificates/0/image.png"
+    }
+  ],
+  "timeline": [
+    {
+      "period": "01.2026",
+      "title": "Apprenticeship at Ringier Axel Springer Poland"
+    }
+  ]
 }
