@@ -2,5 +2,11 @@
   "heading": "Beyond the code.",
   "intro": "I'm a fourth-year student at a technical high school in Poland. I build web applications, primarily focusing on backend development.",
   "note": "I care about how things work - and how they feel. Outside of tech, I spend my time on calisthenics.",
+  "certificates": [
+    {
+      "title": "test",
+      "issuer": "test"
+    }
+  ],
   "timeline": []
 }
