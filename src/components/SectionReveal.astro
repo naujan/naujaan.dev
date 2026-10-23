@@ -1,0 +1,45 @@
+---
+interface Props { variant?: 'rise' | 'wipe'; }
+const { variant = 'rise' } = Astro.props;
+---
+<section-reveal data-variant={variant}><slot /></section-reveal>
+<style>
+  section-reveal { display: block; }
+  @media (prefers-reduced-motion: no-preference) {
+    section-reveal[data-pending] { opacity: 0; transform: translateY(35px); }
+    section-reveal[data-pending][data-variant="wipe"] { opacity: 1; transform: none; clip-path: inset(0 0 100% 0); }
+    section-reveal[data-animated] {
+      transition: opacity .75s ease, transform .75s cubic-bezier(.22,1,.36,1), clip-path .9s cubic-bezier(.22,1,.36,1);
+      clip-path: inset(0);
+    }
+  }
+</style>
+<script>
+  class SectionReveal extends HTMLElement {
+    private observer?: IntersectionObserver;
+    private motion?: MediaQueryList;
+    private show = () => { delete this.dataset.pending; this.observer?.disconnect(); };
+    connectedCallback() {
+      this.motion = matchMedia('(prefers-reduced-motion: reduce)');
+      this.motion.addEventListener('change', this.show);
+      if (this.motion.matches || !('IntersectionObserver' in window)) return;
+      // Never hide content already above the viewport after restoring scroll.
+      if (this.getBoundingClientRect().bottom < 0) return;
+      this.dataset.animated = '';
+      this.dataset.pending = '';
+      this.observer = new IntersectionObserver(entries => {
+        if (entries.some(entry => entry.isIntersecting)) this.show();
+      }, { threshold: 0, rootMargin: '0px 0px -40px 0px' });
+      this.observer.observe(this);
+      this.addEventListener('focusin', this.show);
+    }
+    disconnectedCallback() {
+      this.observer?.disconnect();
+      this.motion?.removeEventListener('change', this.show);
+      this.removeEventListener('focusin', this.show);
+      delete this.dataset.pending;
+    }
+  }
+  if (!customElements.get('section-reveal')) customElements.define('section-reveal', SectionReveal);
+</script>
+

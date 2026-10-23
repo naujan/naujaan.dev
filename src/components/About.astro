@@ -1,0 +1,32 @@
+---
+import { about } from '../lib/site';
+import SectionReveal from './SectionReveal.astro';
+---
+<section class="about container" id="about" aria-labelledby="about-title"><p class="eyebrow">About me</p>
+  <h2 id="about-title">{about.heading}</h2>
+  <div class="about-grid">
+    <div class="about-copy"><p>{about.intro}</p><p class="personal">{about.note}</p><span class="signature" aria-hidden="true">Always a work in progress.</span></div>
+    <ol class="timeline" aria-label="My journey">
+      {about.timeline.map((item, index) => <li><SectionReveal><span class="timeline-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span><p class="period">{item.period}</p><h3>{item.title}</h3><p>{item.description}</p></SectionReveal></li>)}
+    </ol>
+  </div>
+</section>
+<style>
+  .about { padding-block: clamp(120px, 15vh, 180px); }
+  h2 { font-size: clamp(48px, 8vw, 110px); letter-spacing: -.07em; line-height: 1; margin: 24px 0 64px; }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(40px, 8vw, 140px); }
+  .about-copy { max-width: 48ch; }
+  .about-copy > p { font-size: clamp(18px, 1.7vw, 24px); line-height: 1.7; margin: 0 0 24px; }
+  .about-copy .personal { font-size: 15px; color: var(--text-muted); }
+  .signature { display: block; font: italic 30px var(--font-serif); color: #9ab2ff; margin-top: 40px; }
+  .timeline { list-style: none; margin: 0; padding: 0 0 0 32px; border-left: 1px solid var(--border); }
+  .timeline li { position: relative; padding: 0 0 48px 16px; }
+  .timeline li:last-child { padding-bottom: 0; }
+  .timeline li::before { content: ''; position: absolute; left: -37px; top: 4px; width: 9px; height: 9px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 6px var(--background); }
+  .timeline-index { float: right; font-size: 12px; color: var(--text-muted); }
+  .period { margin: 0 0 12px; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: #9ab2ff; }
+  h3 { margin: 0 0 12px; font-size: 22px; font-weight: 500; letter-spacing: -.035em; }
+  li p:not(.period) { margin: 0; color: var(--text-muted); font-size: 14px; line-height: 1.8; max-width: 48ch; }
+  @media (max-width: 768px) { .about-grid { grid-template-columns: 1fr; gap: 64px; } h2 { margin-bottom: 40px; } }
+</style>
+

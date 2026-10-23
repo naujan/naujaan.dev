@@ -1,0 +1,109 @@
+---
+interface Props {
+  /** Viewport heights to pause before revealing the next section. */
+  pause?: number;
+  fadeDistance?: number;
+  scaleTo?: number;
+  headerDistance?: number;
+  /** Only one transition should control an external header. */
+  headerSelector?: string;
+}
+const { pause = 0.25, fadeDistance = 0.85, scaleTo = 1.2, headerDistance = 30, headerSelector } = Astro.props;
+if (![pause, fadeDistance, scaleTo, headerDistance].every(Number.isFinite)
+  || pause < 0 || fadeDistance <= 0 || fadeDistance > 1 || scaleTo <= 0 || headerDistance <= 0) {
+  throw new Error('Invalid ScrollTransition parameters');
+}
+---
+<scroll-transition data-fade={fadeDistance} data-scale={scaleTo}
+  data-header-distance={headerDistance} data-header-selector={headerSelector}
+  style={`--stage-height: calc(${(2.1 + pause) * 100}svh + ${headerDistance}px)`}>
+  <div class="stage" data-stage>
+    <div class="sticky" data-intro><slot name="intro" /></div>
+  </div>
+  <div class="following" data-following><slot /></div>
+</scroll-transition>
+<style>
+  scroll-transition { display: block; overflow-x: clip; }
+  /* Without JS, on mobile and with reduced motion, use normal document flow. */
+  @media (min-width: 769px) and (prefers-reduced-motion: no-preference) {
+    scroll-transition[data-ready] .stage { position: relative; height: var(--stage-height); }
+    scroll-transition[data-ready] .sticky { position: sticky; top: 0; z-index: 2; }
+    scroll-transition[data-ready] .following {
+      position: relative; z-index: 3; margin-top: -110svh; min-height: 110svh;
+    }
+  }
+</style>
+<script>
+  class ScrollTransition extends HTMLElement {
+    private cleanup?: () => void;
+    connectedCallback() {
+      this.cleanup?.();
+      const stage = this.querySelector<HTMLElement>('[data-stage]');
+      const intro = this.querySelector<HTMLElement>('[data-intro]');
+      const next = this.querySelector<HTMLElement>('[data-following]');
+      const target = intro?.querySelector<HTMLElement>('[data-scroll-copy]') ?? intro;
+      if (!stage || !next || !target) return;
+      const header = this.dataset.headerSelector
+        ? document.querySelector<HTMLElement>(this.dataset.headerSelector) : null;
+      const media = matchMedia('(min-width: 769px) and (prefers-reduced-motion: no-preference)');
+      const fade = Number(this.dataset.fade);
+      const scale = Number(this.dataset.scale);
+      const distance = Number(this.dataset.headerDistance);
+      const original = { transform: target.style.transform, opacity: target.style.opacity, inert: target.inert };
+      const headerInert = header?.inert ?? false;
+      const properties = ['--header-shift', '--header-scale', '--header-opacity'];
+      const previous = properties.map(name => header?.style.getPropertyValue(name) ?? '');
+      let frame = 0;
+      const clamp = (value: number) => Math.min(Math.max(value, 0), 1);
+      const reset = () => {
+        target.style.transform = original.transform;
+        target.style.opacity = original.opacity;
+        target.inert = original.inert;
+        properties.forEach((name, i) => {
+          if (previous[i]) header?.style.setProperty(name, previous[i]);
+          else header?.style.removeProperty(name);
+        });
+        if (header) header.inert = headerInert;
+      };
+      const update = () => {
+        frame = 0;
+        if (!media.matches) { reset(); return; }
+        // Read geometry before writing styles. Progress is local to this scene.
+        const stageTop = stage.getBoundingClientRect().top;
+        const nextTop = next.getBoundingClientRect().top;
+        const progress = clamp((innerHeight - nextTop) / (innerHeight * fade));
+        const eased = progress * progress * (3 - 2 * progress);
+        const headerProgress = clamp(-stageTop / distance);
+        target.style.transform = `scale(${1 + (scale - 1) * eased})`;
+        target.style.opacity = String(1 - eased);
+        target.inert = original.inert || progress >= 0.99;
+        if (header) {
+          header.style.setProperty('--header-shift', `${-100 * headerProgress}%`);
+          header.style.setProperty('--header-scale', String(1 - 0.08 * headerProgress));
+          header.style.setProperty('--header-opacity', String(1 - headerProgress));
+          header.inert = headerInert || headerProgress >= 0.99;
+        }
+      };
+      const schedule = () => { if (!frame) frame = requestAnimationFrame(update); };
+      this.dataset.ready = '';
+      window.addEventListener('scroll', schedule, { passive: true });
+      window.addEventListener('resize', schedule);
+      media.addEventListener('change', schedule);
+      const observer = new ResizeObserver(schedule);
+      observer.observe(this);
+      observer.observe(target);
+      this.cleanup = () => {
+        cancelAnimationFrame(frame);
+        window.removeEventListener('scroll', schedule);
+        window.removeEventListener('resize', schedule);
+        media.removeEventListener('change', schedule);
+        observer.disconnect();
+        reset();
+        delete this.dataset.ready;
+      };
+      update();
+    }
+    disconnectedCallback() { this.cleanup?.(); this.cleanup = undefined; }
+  }
+  if (!customElements.get('scroll-transition')) customElements.define('scroll-transition', ScrollTransition);
+</script>

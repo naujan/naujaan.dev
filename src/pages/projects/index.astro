@@ -1,0 +1,13 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ContentCard from '../../components/ContentCard.astro';
+import { publishedProjects } from '../../lib/content';
+const projects = await publishedProjects();
+---
+<Layout title="Projects — naujaan" description="Selected builds, experiments and ideas brought to life.">
+  <section class="container listing"><p class="eyebrow">The collection</p><h1>Ideas made <em>real.</em></h1><p class="listing-intro">Selected builds, experiments and lessons along the way.</p>
+    <div class="listing-grid">{projects.map((entry, index) => <ContentCard entry={entry} index={index} />)}</div>
+    {projects.length === 0 && <p class="empty-state">Something new is in the works.</p>}
+  </section>
+</Layout>
+

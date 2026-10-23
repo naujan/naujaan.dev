@@ -1,0 +1,29 @@
+---
+title: "Small systems. Clear boundaries."
+description: "Why a small, understandable backend is often the best place to start."
+date: "2026-10-20"
+tags: ["Backend","Architecture"]
+cover: null
+coverAlt: ""
+draft: false
+featured: true
+order: 1
+sample: true
+---
+
+## Start with one responsibility
+
+A small application is easier to understand when each part has a clear job. Routing accepts a request. Validation checks the input. Application logic decides what should happen. Storage keeps the result.
+
+These boundaries do not require separate services. A handful of functions and modules can be enough.
+
+## Make failure understandable
+
+Give errors names that explain what went wrong. Distinguish an invalid request from a missing record and from an unavailable dependency. The next person reading a log should have a useful starting point.
+
+## Grow when there is a reason
+
+Keep the design close to the problem you actually have. Add complexity when it removes a concrete limitation, and write down the trade-off.
+
+*This is sample editorial content for the portfolio layout. Replace it with your own writing in Keystatic.*
+

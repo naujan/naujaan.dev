@@ -1,0 +1,20 @@
+---
+import { render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import { publishedPosts, formatDate } from '../../lib/content';
+export async function getStaticPaths() {
+  return (await publishedPosts()).map(post => ({ params: { id: post.id }, props: { post } }));
+}
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+<Layout title={`${post.data.title} — naujaan`} description={post.data.description}>
+  <article class="container article">
+    <a class="text-link" href="/blog/">← All posts</a>
+    <p class="eyebrow">{formatDate(post.data.date)} {post.data.sample && ' / Sample content'}</p>
+    <h1>{post.data.title}</h1><p class="article-summary">{post.data.description}</p>
+    {post.data.cover && <img class="article-cover" src={post.data.cover} alt={post.data.coverAlt} width="1200" height="750" />}
+    <div class="prose"><Content /></div>
+  </article>
+</Layout>
+

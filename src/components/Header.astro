@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { settings } from '../lib/site';
 ---
 <header>
     <section class="title">
@@ -11,7 +12,7 @@ import '../styles/global.css';
             <a href="/blog">BLOG</a>
             <a href="/projects">PROJECTS</a>
 
-            <a href="https://github.com/" target="_blank"
+            <a href={settings.github || 'https://github.com/naujan'} target="_blank"
                rel="noopener noreferrer" aria-label="GitHub">
                 <svg xmlns="http://www.w3.org/2000/svg"
                      viewBox="0 0 640 640">
@@ -19,22 +20,19 @@ import '../styles/global.css';
                 </svg>
             </a>
 
-            <a href="https://www.linkedin.com/" target="_blank"
+            {settings.linkedin && <a href={settings.linkedin} target="_blank"
                rel="noopener noreferrer" aria-label="LinkedIn">
                 <svg xmlns="http://www.w3.org/2000/svg"
                      viewBox="0 0 640 640">
                     <path d="M512 96L127.9 96C110.3 96 96 110.5 96 128.3L96 511.7C96 529.5 110.3 544 127.9 544L512 544C529.6 544 544 529.5 544 511.7L544 128.3C544 110.5 529.6 96 512 96zM231.4 480L165 480L165 266.2L231.5 266.2L231.5 480L231.4 480zM198.2 160C219.5 160 236.7 177.2 236.7 198.5C236.7 219.8 219.5 237 198.2 237C176.9 237 159.7 219.8 159.7 198.5C159.7 177.2 176.9 160 198.2 160zM480.3 480L413.9 480L413.9 376C413.9 351.2 413.4 319.3 379.4 319.3C344.8 319.3 339.5 346.3 339.5 374.2L339.5 480L273.1 480L273.1 266.2L336.8 266.2L336.8 295.4L337.7 295.4C346.6 278.6 368.3 260.9 400.6 260.9C467.8 260.9 480.3 305.2 480.3 362.8L480.3 480z"/>
                 </svg>
             </a>
+            }
         </nav>
     </section>
 </header>
 
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Special+Gothic+Expanded+One&display=swap');
-    @import url('https://fonts.googleapis.com/css2?family=Volkhov:ital,wght@0,400;0,700;1,400;1,700&display=swap');
-    @import url('https://fonts.googleapis.com/css2?family=Duru+Sans&display=swap');
-    @import url('https://fonts.googleapis.com/css2?family=Carrois+Gothic+SC&display=swap');
 
 
     * {
@@ -44,7 +42,9 @@ import '../styles/global.css';
     header {
         width: 100%;
         min-height: 120px;
-        padding: 30px 150px;
+        max-width: var(--container-width);
+        margin-inline: auto;
+        padding: 30px var(--page-padding);
 
         display: flex;
         align-items: center;
@@ -52,13 +52,13 @@ import '../styles/global.css';
     }
 
     .brand {
-        font-family: "Special Gothic Expanded One", sans-serif;
+        font-family: var(--font-display);
         font-size: 32px;
     }
     .brand:any-link {
         color: inherit;
         text-decoration: none;
-        font-family: "Special Gothic Expanded One", sans-serif;
+        font-family: var(--font-display);
     }
 
     .navigation {
@@ -78,7 +78,10 @@ import '../styles/global.css';
         align-items: center;
         justify-content: center;
 
-        font-family: "Carrois Gothic SC";
+        font-family: var(--font-primary);
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
         color: inherit;
         text-decoration: none;
         white-space: nowrap;
@@ -102,7 +105,7 @@ import '../styles/global.css';
         fill: currentColor;
     }
 
-    @media (max-width: 650px) {
+    @media (max-width: 768px) {
         header {
             height: auto;
             padding: 24px;

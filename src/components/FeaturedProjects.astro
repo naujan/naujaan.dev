@@ -1,0 +1,19 @@
+---
+import { publishedProjects } from '../lib/content';
+import ContentCard from './ContentCard.astro';
+import SectionReveal from './SectionReveal.astro';
+const projects = (await publishedProjects()).filter(project => project.data.featured).slice(0, 2);
+---
+<section class="section container" id="work" aria-labelledby="work-title">
+  <SectionReveal><div class="section-heading"><div><p class="eyebrow">Projects</p><h2 id="work-title">Ideas made <em>real.</em></h2></div><a class="hero__link" href="/projects/">View all projects <span aria-hidden="true">↗</span></a></div></SectionReveal>
+  <div class="projects-grid">
+    {projects.map((entry, index) => <SectionReveal variant="wipe"><ContentCard entry={entry} index={index} /></SectionReveal>)}
+  </div>
+  {projects.length === 0 && <p class="empty-state">Something new is in the works.</p>}
+</section>
+<style>
+  .projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+  .projects-grid > :global(section-reveal:nth-child(2)) { margin-top: 100px; }
+  @media (max-width: 768px) { .projects-grid { grid-template-columns: 1fr; } .projects-grid > :global(section-reveal:nth-child(2)) { margin-top: 0; } }
+</style>
+

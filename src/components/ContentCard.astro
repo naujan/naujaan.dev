@@ -1,0 +1,46 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { formatDate } from '../lib/content';
+interface Props { entry: CollectionEntry<'posts'> | CollectionEntry<'projects'>; index?: number; }
+const { entry, index = 0 } = Astro.props;
+const project = entry.collection === 'projects';
+const href = `/${project ? 'projects' : 'blog'}/${entry.id}/`;
+---
+<article class:list={['content-card', { 'content-card--project': project }]}>
+  <a class="card-link" href={href}>
+    <div class="card-art" data-tone={index % 3}>
+      {entry.data.cover
+        ? <img src={entry.data.cover} alt={entry.data.coverAlt} loading="lazy" width="1200" height="750" />
+        : <div class="abstract-art" aria-hidden="true"><span class="orbit"></span><span class="art-label">{project ? 'BUILD / EXPLORE' : 'NOTES / IDEAS'}</span><span class="art-number">{String(index + 1).padStart(2, '0')}</span></div>}
+      <span class="card-arrow" aria-hidden="true">↗</span>
+    </div>
+    <div class="card-meta">
+      <span>{entry.collection === 'posts' ? formatDate(entry.data.date) : entry.data.year || 'Project'}</span>
+      {entry.data.sample && <span class="sample">Sample</span>}
+    </div>
+    <h3>{entry.data.title}</h3>
+    <p>{entry.data.description}</p>
+    <ul class="tags" aria-label="Topics">{entry.data.tags.map(tag => <li>{tag}</li>)}</ul>
+  </a>
+</article>
+<style>
+  .card-link { display: block; text-decoration: none; color: inherit; }
+  .card-art { aspect-ratio: 16 / 10; position: relative; overflow: hidden; background: #101323; border: 1px solid var(--border); }
+  .card-art img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
+  .abstract-art { position: absolute; inset: 0; background: radial-gradient(ellipse at 65% 30%, #243e8c 0, transparent 65%), #10121c; overflow: hidden; }
+  [data-tone="1"] .abstract-art { background: radial-gradient(ellipse at 20% 70%, #51446b 0, transparent 65%), #12121b; }
+  [data-tone="2"] .abstract-art { background: radial-gradient(ellipse at 70% 60%, #274744 0, transparent 65%), #0d181a; }
+  .orbit { position: absolute; width: 65%; aspect-ratio: 1; border: 1px solid #ffffff40; border-radius: 50%; left: 30%; top: -15%; box-shadow: 0 0 0 35px #ffffff05, 0 0 0 70px #ffffff05, 0 0 0 105px #ffffff05; transform: rotate(-25deg) scaleX(.7); }
+  .art-label { position: absolute; left: 24px; bottom: 24px; font-size: 10px; letter-spacing: .2em; }
+  .art-number { position: absolute; left: 24px; top: 16px; font: italic clamp(60px, 8vw, 120px) var(--font-serif); color: #ffffffb0; }
+  .card-arrow { position: absolute; right: 18px; bottom: 18px; width: 38px; height: 38px; display: grid; place-items: center; background: var(--background); border-radius: 50%; transition: background .2s; }
+  .card-link:hover .card-arrow { background: var(--accent); }
+  .card-link:hover img { transform: scale(1.035); }
+  .card-meta { display: flex; justify-content: space-between; margin-top: 24px; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--text-muted); }
+  .sample { color: #a8baff; }
+  h3 { font-size: clamp(24px, 2.5vw, 38px); line-height: 1.2; letter-spacing: -.045em; margin: 14px 0; }
+  p { max-width: 55ch; font-size: 14px; line-height: 1.8; color: var(--text-muted); }
+  .tags { display: flex; flex-wrap: wrap; gap: 8px 16px; list-style: none; margin: 20px 0 0; padding: 0; color: var(--text-soft); font-size: 11px; }
+  @media (prefers-reduced-motion: reduce) { .card-art img, .card-arrow { transition: none; } }
+</style>
+

@@ -1,12 +1,16 @@
 ---
 import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import BackToTop from '../components/BackToTop.astro';
 import '../styles/global.css';
 
 interface Props {
   overlayHeader?: boolean;
+  title?: string;
+  description?: string;
 }
 
-const { overlayHeader = false } = Astro.props;
+const { overlayHeader = false, title = 'naujaan - Developer', description = 'Naujaan - developer portfolio, projects and writing.' } = Astro.props;
 ---
 
 <!doctype html>
@@ -18,16 +22,34 @@ const { overlayHeader = false } = Astro.props;
     <meta name="generator" content={Astro.generator} />
     <meta
       name="description"
-      content="Naujaan - developer portfolio, projects and writing."
+      content={description}
     />
-    <title>naujaan - Developer</title>
+    <title>{title}</title>
   </head>
 
-  <body class:list={{ 'home-layout': overlayHeader }}>
+  <body id="top" tabindex="-1" class:list={{ 'home-layout': overlayHeader }}>
+    <a class="skip-link" href="#main-content">Skip to content</a>
     <Header />
 
     <main id="main-content">
       <slot />
     </main>
+    <Footer />
+    <BackToTop />
   </body>
 </html>
+
+<style>
+  /* Layout owns header positioning; a scroll scene may supply animation values. */
+  @media (min-width: 769px) and (prefers-reduced-motion: no-preference) {
+    :global(body.home-layout > header) {
+      position: absolute;
+      inset: 0 0 auto;
+      z-index: 10;
+      width: 100%;
+      transform: translateY(var(--header-shift, 0%)) scale(var(--header-scale, 1));
+      transform-origin: top center;
+      opacity: var(--header-opacity, 1);
+    }
+  }
+</style>

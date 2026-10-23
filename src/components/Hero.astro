@@ -1,12 +1,12 @@
 
-<section class="hero container" aria-labelledby="hero-title">
+<section class="hero container" id="hero" aria-labelledby="hero-title">
   <div
     class="hero__divider reveal reveal--1"
     aria-hidden="true"
   ></div>
 
   <div class="hero__content">
-    <div class="hero__copy">
+    <div class="hero__copy" data-scroll-copy>
 
       <p class="hero__intro reveal reveal--2">
         Hello, I'm
@@ -51,7 +51,7 @@
 <style>
   /* Layout */
   .hero {
-    position: sticky;
+    position: relative;
     top: 0;
     z-index: 2;
 
@@ -71,12 +71,12 @@
 
   /*
    * Scroll animation
-   * Controlled by index.astro
+   * Optional animation target for ScrollTransition.astro
    */
   .hero__copy {
-    opacity: var(--hero-opacity, 1);
+    opacity: 1;
 
-    transform: scale(var(--hero-scale, 1));
+    transform: none;
     transform-origin: center center;
   }
 
@@ -150,39 +150,7 @@
     color: var(--text-muted);
   }
 
-  .hero__link {
-    display: inline-flex;
-    align-items: center;
-    gap: 25px;
 
-    padding: 12px 0;
-    border-bottom: 1px solid var(--accent);
-
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text);
-    text-decoration: none;
-    white-space: nowrap;
-
-    transition:
-      color var(--transition-fast),
-      gap var(--transition-fast);
-  }
-
-  .hero__link:hover {
-    color: var(--accent);
-    gap: 35px;
-  }
-
-  .hero__link:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 5px;
-  }
-
-  .hero__link span {
-    font-size: 20px;
-    color: var(--accent);
-  }
 
   /* Entry animations */
   .reveal {

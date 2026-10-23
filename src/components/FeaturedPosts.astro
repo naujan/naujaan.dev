@@ -1,0 +1,21 @@
+---
+import { publishedPosts, featuredOrder } from '../lib/content';
+import ContentCard from './ContentCard.astro';
+import SectionReveal from './SectionReveal.astro';
+const posts = (await publishedPosts()).filter(post => post.data.featured).sort(featuredOrder).slice(0, 3);
+---
+<section class="section container" id="writing" aria-labelledby="writing-title">
+  <SectionReveal>
+    <div class="section-heading"><div><p class="eyebrow">Blog</p><h2 id="writing-title">Thinking <em>out loud.</em></h2></div><a class="hero__link" href="/blog/">View all posts <span aria-hidden="true">↗</span></a></div>
+  </SectionReveal>
+  <div class="posts-grid">
+    {posts.map((entry, index) => <SectionReveal><ContentCard entry={entry} index={index} /></SectionReveal>)}
+  </div>
+  {posts.length === 0 && <p class="empty-state">New ideas are taking shape. Come back soon.</p>}
+</section>
+<style>
+  .posts-grid { display: grid; grid-template-columns: 1.35fr 1fr 1fr; gap: 32px; align-items: start; }
+  @media (max-width: 1000px) { .posts-grid { grid-template-columns: 1fr 1fr; } .posts-grid > :global(section-reveal:first-child) { grid-column: 1 / -1; } }
+  @media (max-width: 600px) { .posts-grid { grid-template-columns: 1fr; gap: 48px; } }
+</style>
+

@@ -1,0 +1,36 @@
+{
+  "heading": "Beyond the code.",
+  "intro": "I'm a fourth-year student at a technical high school in Poland. I build web applications, primarily focusing on backend development.",
+  "note": "I care about how things work — and how they feel. Outside of tech, I spend my time on calisthenics.",
+  "timeline": [
+    {
+      "period": "Learning",
+      "title": "Building the foundations",
+      "description": "Studying at a technical high school in Poland and developing my skills through practice."
+    },
+    {
+      "period": "Now",
+      "title": "From ideas to applications",
+      "description": "Exploring backend development while crafting frontends that match my vision."
+    },
+    {
+      "period": "Next",
+      "title": "Keep building. Keep sharing.",
+      "description": "A place for future milestones, new projects and lessons learned along the way."
+    },
+    {
+      "period": "Next",
+      "title": "Keep building. Keep sharing."
+    },
+    {
+      "period": "Next",
+      "title": "Keep building. Keep sharing.",
+      "description": "A place for future milestones, new projects and lessons learned along the way."
+    },
+    {
+      "period": "Next",
+      "title": "Keep building. Keep sharing.",
+      "description": "A place for future milestones, new projects and lessons learned along the way."
+    }
+  ]
+}
