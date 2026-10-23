@@ -1,0 +1,15 @@
+---
+import { faArrowRight, faArrowLeft, faArrowUp } from '@fortawesome/free-solid-svg-icons';
+
+interface Props { name?: 'arrow-up-right' | 'arrow-left' | 'arrow-up'; }
+const { name = 'arrow-up-right' } = Astro.props;
+const icons = { 'arrow-up-right': faArrowRight, 'arrow-left': faArrowLeft, 'arrow-up': faArrowUp };
+const [width, height, , , path] = icons[name].icon;
+---
+<svg class:list={['fa-icon', { diagonal: name === 'arrow-up-right' }]} xmlns="http://www.w3.org/2000/svg" viewBox={`0 0 ${width} ${height}`} width="1em" height="1em" fill="currentColor" aria-hidden="true" focusable="false">
+  {Array.isArray(path) ? path.map(d => <path d={d} />) : <path d={path} />}
+</svg>
+<style>
+  .fa-icon { display: inline-block; flex: none; vertical-align: -.125em; }
+  .diagonal { transform: rotate(-45deg); }
+</style>

@@ -1,4 +1,7 @@
-<back-to-top><a href="#top" aria-label="Back to top" title="Back to top">↑</a></back-to-top>
+---
+import Icon from './Icon.astro';
+---
+<back-to-top><a href="#top" aria-label="Back to top" title="Back to top"><Icon name="arrow-up" /></a></back-to-top>
 <style>
   back-to-top { position: fixed; bottom: 24px; right: 24px; z-index: 20; }
   a { display: grid; place-items: center; width: 48px; height: 48px; background: #151725; color: var(--text); border: 1px solid #ffffff30; border-radius: 50%; text-decoration: none; font-size: 22px; box-shadow: 0 8px 32px #0005; }

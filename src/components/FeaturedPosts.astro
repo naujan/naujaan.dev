@@ -1,4 +1,5 @@
 ---
+import Icon from './Icon.astro';
 import { publishedPosts, featuredOrder } from '../lib/content';
 import ContentCard from './ContentCard.astro';
 import SectionReveal from './SectionReveal.astro';
@@ -6,7 +7,7 @@ const posts = (await publishedPosts()).filter(post => post.data.featured).sort(f
 ---
 <section class="section container" id="writing" aria-labelledby="writing-title">
   <SectionReveal>
-    <div class="section-heading"><div><p class="eyebrow">Blog</p><h2 id="writing-title">Thinking <em>out loud.</em></h2></div><a class="hero__link" href="/blog/">View all posts <span aria-hidden="true">↗</span></a></div>
+    <div class="section-heading"><div><p class="eyebrow">Blog</p><h2 id="writing-title">Thinking <em>out loud.</em></h2></div><a class="hero__link" href="/blog/">View all posts <span aria-hidden="true"><Icon /></span></a></div>
   </SectionReveal>
   <div class="posts-grid">
     {posts.map((entry, index) => <SectionReveal><ContentCard entry={entry} index={index} /></SectionReveal>)}
