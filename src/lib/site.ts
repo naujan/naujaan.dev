@@ -7,6 +7,11 @@ export const about = z.object({
   heading: z.string(),
   intro: z.string().default(''),
   note: z.string().default(''),
+  certificates: z.array(z.object({
+    title: z.string(), issuer: z.string(),
+    date: z.iso.date().nullish(),
+    url: z.url({ protocol: /^https?$/ }).nullish(),
+  })).default([]),
   timeline: z.array(z.object({
     period: z.string().default(''), title: z.string(), description: z.string().default(''),
   })).default([]),

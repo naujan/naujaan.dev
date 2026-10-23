@@ -42,6 +42,12 @@ export default config({
         heading: fields.text({ label: 'Heading', validation: { isRequired: true } }),
         intro: fields.text({ label: 'Introduction', multiline: true }),
         note: fields.text({ label: 'Personal note', multiline: true }),
+        certificates: fields.array(fields.object({
+          title: fields.text({ label: 'Certificate name', validation: { isRequired: true } }),
+          issuer: fields.text({ label: 'Issued by', validation: { isRequired: true } }),
+          date: fields.date({ label: 'Issue date (optional)' }),
+          url: fields.url({ label: 'Certificate or verification URL (optional)' }),
+        }), { label: 'Certificates (drag to reorder)', itemLabel: p => p.fields.title.value }),
         timeline: fields.array(fields.object({
           period: fields.text({ label: 'Date or period' }),
           title: fields.text({ label: 'Title', validation: { isRequired: true } }),
