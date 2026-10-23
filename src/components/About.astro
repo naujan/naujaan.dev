@@ -8,7 +8,7 @@ import Certificates from './Certificates.astro';
   <div class="about-grid">
     <div class="about-copy"><p>{about.intro}</p><p class="personal">{about.note}</p><span class="signature" aria-hidden="true">Certificates</span><Certificates certificates={about.certificates} /></div>
     <ol class="timeline" aria-label="My journey">
-      {about.timeline.map((item, index) => <li><SectionReveal><span class="timeline-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span><p class="period">{item.period}</p><h3>{item.title}</h3><p>{item.description}</p></SectionReveal></li>)}
+      {about.timeline.map((item, index) => <li><SectionReveal><p class="period">{item.period}</p><h3>{item.title}</h3><p>{item.description}</p></SectionReveal></li>)}
     </ol>
   </div>
 </section>
