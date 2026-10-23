@@ -10,7 +10,7 @@ interface Props {
   description?: string;
 }
 
-const { overlayHeader = false, title = 'naujaan - Developer', description = 'Naujaan - developer portfolio, projects and writing.' } = Astro.props;
+const { overlayHeader = false, title = 'naujaan - Developer', description = 'My personal portfolio. Explore my blog and projects.' } = Astro.props;
 ---
 
 <!doctype html>
@@ -20,10 +20,32 @@ const { overlayHeader = false, title = 'naujaan - Developer', description = 'Nau
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description}/>
+    <meta name="keywords" content="developer, portfolio, Java, JavaScript,  IT">
+    <meta name="author" content="Jan Pawłowicz"/>
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="naujaan - portfolio" />
+    <meta property="og:title" content="naujaan - portfolio" />
     <meta
-      name="description"
-      content={description}
+      property="og:description"
+      content="My personal portfolio. Explore my blog and projects."
     />
+    <meta property="og:url" content="https://naujaan.dev/" />
+    <meta property="og:image" content="https://naujaan.dev/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="naujaan - portfolio" />
+    <meta property="og:locale" content="en_US" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="naujaan - portfolio" />
+    <meta
+      name="twitter:description"
+      content="My personal portfolio. Explore my blog and projects."
+    />
+    <meta name="twitter:image" content="https://naujaan.dev/og-image.png" />
+
     <title>{title}</title>
   </head>
 
